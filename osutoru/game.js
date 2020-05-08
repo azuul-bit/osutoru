@@ -26,7 +26,6 @@
               [0, 0, 0, 0, 0],
               [1, 1, 1, 1, 1]
               ],
-//        mode: 0,
         turn: 0,
         revision: 0,
         selected: null,
@@ -69,23 +68,24 @@
     // クリックした時
     var preNumber;
     function ev_mouseClick(e) {
+        if (Rule.getWinner(state.map) != 0) {
+            initGame(ctx);
+            return;
+        }
         var selected = hitTest(point.x, point.y);
         state.selected = selected;
         var number = selected;
         console.log("★ターン数：" + (Math.floor(state.revision / 4) + 1) + "　フェーズ：" + state.turn);
         console.log("クリックされたセルは " + number);
         // フェーズ１
-        switch (state.turn) {
-        case 1:
+        if (state.turn == 1) {
             if (Rule.getValue(state.map, number) == 1 || Rule.getValue(state.map, number) == 9) {
                 nextTurn(1);
                 Render.render(ctx, state, point);
-//                    console.log("★フェイズ" + state.turn + "に移行します");
                 preNumber = number;
             }
-            break;
         // フェーズ２
-        case 2:
+        } else if (state.turn == 2) {
             // 提示した選択肢を選んだ時
             if (Rule.canMove(state.map, preNumber).includes(number)) {
 
@@ -114,7 +114,6 @@
                 state.selected = null;
                 Render.render(ctx, state, point);
                 console.log("別のセルがクリックされました。フェーズを戻します");
-//                    console.log("★ターン数：" + (Math.floor(state.revision / 4) + 1) + "　フェーズ：" + state.turn);
             }
         }
     }
