@@ -10,7 +10,6 @@
 
     //-------------------------------------
     var COL = 5;
-    var COLXCOL = COL * COL;
 
     function thinkAI(map, turn_player, depth) {
         var copyMap = JSON.parse(JSON.stringify(map));
@@ -38,7 +37,6 @@
                     best_score = 999 * turn * -1;
                     besthand = hand;
                 }
-//                best_score = 1000 * turn * -1;
                 continue;
             }
 
@@ -58,7 +56,6 @@
             if ((turn == 1 && a < best_score) || (turn == -1 && a > best_score)) {
                 a = best_score;
             }
-            // さっきの候補セルより悪いとき
             if ((turn == 1 && b <= best_score) || (turn == -1 && b >= best_score)) {
                 break;
             }
@@ -100,13 +97,10 @@
         var ev = 0;
         for (var i = 0; i < COL; i++) {
             for (var j = 0; j < COL; j++) {
-                switch (map[i][j]) {
-                case 1:
-                    ev += 1;
-                    break;
-                case -1:
-                    ev += -1;
-                    break;
+                if (map[i][j] == 1) {
+                    ev ++;
+                } else if (map[i][j] == -1) {
+                    ev --
                 }
             }
         }
